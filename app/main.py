@@ -29,14 +29,25 @@ app = FastAPI(
     description="Backend API for the ManUp recovery app",
     version="1.0.0",
     lifespan=lifespan,
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
 )
+
+# CORS - restrict to iOS app and known origins
+# iOS apps make requests without Origin header, so we allow that implicitly.
+# For any web-based admin tools, add specific origins here.
+ALLOWED_ORIGINS = [
+    "https://fridaysg.com",
+    "https://www.fridaysg.com",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
 app.include_router(auth.router, prefix="/api/v1", tags=["Auth"])
