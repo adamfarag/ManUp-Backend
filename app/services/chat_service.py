@@ -84,7 +84,7 @@ async def _get_openai_response(
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": "gpt-4.1-nano",
+                    "model": "gpt-5-mini",
                     "messages": messages,
                     "max_tokens": 200,
                     "temperature": 0.7,
